@@ -1,0 +1,18 @@
+# index:
+#    path: /default
+#    controller: App\Controller\DefaultController::index
+
+# should be loaded through annotations
+# app:
+#    path: /
+#    controller: App\Controller\AnimalVoteController::index
+
+# votes_query:
+#   path: /votes
+#   controller: App\Controller\AnimalVoteController::getVotes
+#   methods:  [GET]
+
+# votes_reg:
+#   path: /votes/{animal}
+#   controller: App\Controller\AnimalVoteController::registerVote
+#   methods:  [POST]

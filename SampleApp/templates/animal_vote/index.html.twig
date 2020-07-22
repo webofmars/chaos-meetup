@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello devops gurus !{% endblock %}
+
+{% block body %}
+<div class="container">
+<h2>Quel est votre animal préféré ?</h2>
+<table>
+    <tr>
+        <td align="center"><img src="/images/monkey.jpg" width="40%"></td>
+        <td align="center"><img src="/images/orni.jpg" width="100%"></td>
+    </tr>
+    <tr>
+        <td align="center"><button type="button" id="btn-singe" class="btn btn-primary" onClick="voteSinge()">Singe</button></td>
+        <td align="center"><button type="button" id="btn-orni" class="btn btn-danger" onClick="voteOrni()">ornithorynque</button></td>
+    </tr>
+</table>
+</div>
+<div id="results" class="container">
+    {{ render(controller("App\\Controller\\AnimalVoteController::getVotes")) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="votes.js">
+{% endblock %}

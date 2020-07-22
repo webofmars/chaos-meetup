@@ -1,0 +1,6 @@
+/var/log/*
+/var/cache/*
+/.ebextensions
+/.elasticbeanstalk
+/.env
+/.gitignore

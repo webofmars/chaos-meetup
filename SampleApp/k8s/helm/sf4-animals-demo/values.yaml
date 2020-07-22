@@ -1,0 +1,63 @@
+# Default values for sf4-animals-demo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+database:
+  url: mysql://demo:demo@sampleapp-mysql:3306/appdb
+
+# mysql dependency chart values
+mysql:
+  mysqlRootPassword: demo
+  mysqlUser: demo
+  mysqlPassword: demo
+  mysqlDatabase: appdb
+  initializationFiles:
+    grants.sql: |-
+      GRANTS ALL PRIVILEGES on *.* to 'demo'@'%' identified by 'demo';
+      FLUSH PRIVILEGES;
+    dbcreate.sql: |-
+      CREATE DATABASE appdb;
+    createAnimals.sql: |-
+      use appdb;
+      insert into poll_votes values (1, 'singe', 0);
+      insert into poll_votes values (2, 'ornithorynque', 0);
+
+replicaCount: 2
+
+image:
+  repository: webofmars/sf4-animals-demo
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - demo.192.168.64.5.xip.io
+  tls:
+  - hosts:
+    - demo.192.168.64.5.xip.io
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

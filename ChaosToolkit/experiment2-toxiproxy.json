@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "title": "Simulate latency",
+  "description": "placeholder description",
+  "tags": ["demo"],
+  "configuration": {
+    "aws_region": "eu-west-1",
+    "toxiproxy_host" : "localhost"
+  },
+  "steady-state-hypothesis": {
+      "title": "Application responds",
+      "probes": [
+          {
+              "type": "probe",
+              "name": "we-can-request-animals",
+              "tolerance": 200,
+              "timeout": 3,
+              "provider": {
+                  "type": "http",
+                  "timeout": 1,
+                  "verify_tls": false,
+                  "url": "http://localhost:6666/"
+              }
+          }
+      ]
+  },
+  "method": [
+      {
+        "type": "action",
+        "name": "create_latency_toxic",
+        "provider": {
+            "type": "python",
+            "module": "chaostoxi.toxic.actions",
+            "func": "create_latency_toxic",
+            "arguments": {
+                "for_proxy": "myproxy",
+                "toxic_name": "latency_toxic",
+                "latency": 5000,
+                "jitter": 200
+            }
+        },
+        "pauses": {"after": 10}
+      },
+      {
+          "type": "probe",
+          "name": "we-can-request-animals",
+          "tolerance": 200,
+          "timeout": 3,
+          "provider": {
+              "type": "http",
+              "timeout": 1,
+              "verify_tls": false,
+              "url": "http://localhost:6666/"
+          }
+      }
+  ],
+  "rollbacks": [
+    {
+      "name": "delete-toxi-proxy",
+      "type": "action",
+      "pauses": {"before": 20},
+      "provider": {
+        "type": "python",
+        "module": "chaostoxi.proxy.actions",
+        "func": "delete_proxy",
+        "arguments": {
+          "proxy_name": "myproxy"
+        }
+      }
+    }
+  ]
+}

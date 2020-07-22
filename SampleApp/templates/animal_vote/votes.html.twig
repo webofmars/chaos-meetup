@@ -1,0 +1,15 @@
+<h3>Résultats</h3>
+<table id="table-results" class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Nom animal</td>
+            <th scope="col">Nombre de votes</td>
+        </tr>
+    </thead>
+    {% for i in votes %}
+    <tr>
+        <td>{{i.animal}}</td>
+        <td>{{i.votes}}
+    </tr>
+    {% endfor %}
+</table>

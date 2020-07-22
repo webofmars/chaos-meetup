@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "title": "AWS instances",
+  "description": "Stop random aws instances",
+  "tags": ["demo"],
+  "configuration": {
+    "aws_region": "eu-west-1"
+  },
+  "steady-state-hypothesis": {
+      "title": "Application responds",
+      "probes": [
+          {
+              "type": "probe",
+              "name": "we-can-request-animals",
+              "tolerance": 200,
+              "provider": {
+                  "type": "http",
+                  "timeout": 3,
+                  "verify_tls": false,
+                  "url": "http://staging.eba-smt8adun.eu-west-1.elasticbeanstalk.com/"
+              }
+          }
+      ]
+  },
+  "method": [
+      {
+        "name": "stop-an-ec2-instance-in-az-at-random",
+        "type": "action",
+        "pauses": {"after": 30},
+        "provider": {
+            "type": "python",
+            "module": "chaosaws.ec2.actions",
+            "func": "stop_instance",
+            "arguments": {
+              "filters": [
+                {
+                  "Name": "tag:elasticbeanstalk:environment-name",
+                  "Values": ["staging"]
+                },
+                {
+                  "Name": "instance-state-name",
+                  "Values": ["running"]
+                }
+              ]
+            }
+        }
+      }
+  ],
+  "rollbacks": [
+      {
+        "name": "start-instances",
+        "type": "action",
+        "pauses": {"after": 30},
+        "provider": {
+          "type": "python",
+          "module": "chaosaws.ec2.actions",
+          "func": "start_instances",
+          "arguments": {
+              "filters": [
+                {
+                  "Name": "tag:elasticbeanstalk:environment-name",
+                  "Values": ["staging"]
+                },
+                {
+                  "Name": "instance-state-name",
+                  "Values": ["stopped"]
+                }
+              ]
+          }
+        }
+      }
+  ]
+}

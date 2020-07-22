@@ -1,0 +1,8 @@
+[
+  {
+    "name": "myproxy",
+    "listen": "[::]:6666",
+    "upstream": "staging.eba-smt8adun.eu-west-1.elasticbeanstalk.com:80",
+    "enabled": true
+  }
+]
