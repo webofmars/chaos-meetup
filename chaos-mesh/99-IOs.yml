@@ -1,0 +1,19 @@
+# NB: need a special fuse container injected : RTFM !
+apiVersion: chaos-mesh.org/v1alpha1
+kind: IoChaos
+metadata:
+  name: io-mixed-example
+  namespace: chaos-testing
+spec:
+  action: mixed
+  mode: one
+  duration: "400s"
+  path: ""
+  selector:
+    labelSelectors:
+      app: sf4-animals-demo
+  layer: "fs"
+  percent: "50"
+  delay: "1ms"
+  scheduler:
+    cron: "@every 10m"

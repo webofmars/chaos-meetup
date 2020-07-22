@@ -1,0 +1,18 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: TimeChaos
+metadata:
+  name: time-shift-example
+  namespace: chaos
+spec:
+  mode: one
+  selector:
+    labelSelectors:
+      app: sf4-animals-demo
+  timeOffset: "-10m100ns"
+  clockIds:
+    - CLOCK_REALTIME
+  containerNames:
+    - sf4-animals-demo
+  duration: "30s"
+  scheduler:
+    cron: "@every 1m"
