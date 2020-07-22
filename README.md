@@ -82,7 +82,7 @@ https://github.com/asobti/kube-monkey
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/chaos-mesh/chaos-mesh/master/manifests/crd.yaml
 kubectl create namespace chaos-testing
-helm upgrade chaos-mesh helm/chaos-mesh --namespace=chaos-testing --install --set dashboard.create=true --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
+helm upgrade chaos-mesh helm/chaos-mesh --namespace=chaos-testing --install --set dashboard.create=true --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/k3s/containerd/containerd.sock
 kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333
 ```
 

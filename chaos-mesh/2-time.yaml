@@ -2,7 +2,7 @@ apiVersion: chaos-mesh.org/v1alpha1
 kind: TimeChaos
 metadata:
   name: time-shift-example
-  namespace: chaos
+  namespace: chaos-testing
 spec:
   mode: one
   selector:
